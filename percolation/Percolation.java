@@ -48,18 +48,32 @@ public class Percolation {
         }
     }
 
-    public int getQuickFindIndex(int row, int col){
-        return size * (row - 1) + col;
-    }
-
     public boolean isOpen(int row, int col){
         checkException(row, col);
         return opened[row - 1][col -1];
+    }
+
+    private void checkException(int row, int col){
+        if (row <= 0 || row > size || col <= 0 || col > size){
+            throw new IllegalArgumentException();
+        }
     }
 
     public int numOfOpenSites(){
         return openSites;
     }
 
-    public boolean isFull
+    public boolean isFull(int row, int col){
+        if ((row > 0 && row <= size) && (col > 0 && col <= size)){
+            return wqf.find(TOP) == wqf.find(getQuickFindIndex(row, col));
+        } else throw new IllegalArgumentException();
+    }
+
+    public int getQuickFindIndex(int row, int col) {
+        return size * (row - 1) + col;
+    }
+
+    public boolean percolates(){
+        return wqf.find(TOP) == wqf.find(bottom);
+    }
 }
